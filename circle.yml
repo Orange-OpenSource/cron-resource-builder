@@ -1,0 +1,37 @@
+machine:
+  environment:
+    GO_WORKSPACE: ${HOME}/.go_workspace
+    DOCKER_ORG: orangeopensource
+    DOCKER_IMAGE: cron-resource
+    DOCKER_NAME: $DOCKER_ORG/$DOCKER_IMAGE
+
+  services:
+    - docker
+
+dependencies:
+
+  override:
+    - go version
+    - go get -u github.com/onsi/ginkgo/ginkgo
+    - go get -u github.com/onsi/gomega
+    - go get -u github.com/pivotal-cf-experimental/cron-resource
+
+
+test:
+  override:
+    - go version
+    - scripts/build.sh
+    - docker build --rm=false -t $DOCKER_ORG/$DOCKER_IMAGE .
+
+deployment:
+  hub-master:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push $DOCKER_ORG/$DOCKER_IMAGE
+  hub-branch:
+    branch: /^(?master)$/
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push $DOCKER_ORG/$DOCKER_IMAGE:$CIRCLE_BRANCH
+

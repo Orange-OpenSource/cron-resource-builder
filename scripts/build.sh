@@ -19,7 +19,7 @@ pushd ${REPO_DIR}
   godep go build -o built-in in/main.go
   godep go build -o built-check check/check.go
 
-  docker build -t ${DOCKER_NAME} .
+  docker build ${DOCKER_BUILD_OPT} -t ${DOCKER_NAME} .
   docker run -i ${DOCKER_NAME} /bin/sh -c "sleep 5"
 
 popd

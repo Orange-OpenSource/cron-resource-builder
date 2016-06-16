@@ -4,6 +4,7 @@ machine:
     DOCKER_ORG: orangeopensource
     DOCKER_IMAGE: cron-resource
     DOCKER_NAME: $DOCKER_ORG/$DOCKER_IMAGE
+    DOCKER_BUILD_OPT: --rm=false
 
   services:
     - docker
@@ -12,8 +13,7 @@ dependencies:
 
   override:
     - go version
-    - go get -u github.com/onsi/ginkgo/ginkgo
-    - go get -u github.com/onsi/gomega
+    - go get -u github.com/tools/godep
     - go get -d -u github.com/pivotal-cf-experimental/cron-resource/...
 
 

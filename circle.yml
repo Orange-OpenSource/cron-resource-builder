@@ -14,14 +14,13 @@ dependencies:
     - go version
     - go get -u github.com/onsi/ginkgo/ginkgo
     - go get -u github.com/onsi/gomega
-    - go get -u github.com/pivotal-cf-experimental/cron-resource
+    - go get -d -u github.com/pivotal-cf-experimental/cron-resource/...
 
 
 test:
   override:
     - go version
     - scripts/build.sh
-    - docker build --rm=false -t $DOCKER_ORG/$DOCKER_IMAGE .
 
 deployment:
   hub-master:
